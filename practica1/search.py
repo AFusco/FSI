@@ -73,7 +73,7 @@ class Node:
             self.depth = parent.depth + 1
 
     def __repr__(self):
-        return "<Node %s>" % (self.state,)
+        return "<%s>" % (self.state,)
 
     def path(self):
         """Create a list of nodes from the root to this node."""
@@ -121,14 +121,6 @@ def depth_first_tree_search(problem):
     """Search the deepest nodes in the search tree first. [p 74]"""
     return tree_search(problem, Stack())
 
-def count_calls(fn):
-    def _counting(*args, **kwargs):
-        _counting.calls += 1
-        return fn(*args, **kwargs)
-    _counting.calls = 0
-    return _counting
-
-
 def graph_search(problem, fringe):
     """Search through the successors of a problem to find a goal.
     The argument fringe should be an empty queue.
@@ -139,8 +131,6 @@ def graph_search(problem, fringe):
     while fringe:
         node = fringe.pop()
         if problem.goal_test(node.state):
-            print 'Expanded nodes: ', expanded
-
             # Add the number of visited nodes to the returning node
             node.visits = expanded
             return node
@@ -149,8 +139,6 @@ def graph_search(problem, fringe):
             nodes = node.expand(problem)
             expanded += len(nodes)
             fringe.extend(nodes)
-
-
 
     print 'Expanded nodes: ', expanded
     return None
@@ -235,8 +223,7 @@ def astar_search(problem, h=None):
     Implementar por parte del alumno.    
     
     """
-
-    pass
+    return best_first_graph_search(problem, lambda x : x.path_cost + problem.h(x))
 
 
 
